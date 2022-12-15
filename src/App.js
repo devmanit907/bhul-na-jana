@@ -3,10 +3,12 @@ import { Button } from 'antd';
 import 'antd/dist/reset.css';
 import './App.css';
 
+import Layout from './Components/Layout';
+
 const App = () => (
-  <div className="App">
-    <Button type="primary">Button</Button>
-  </div>
+  <>
+    <Layout />
+  </>
 );
 
 export default App;
