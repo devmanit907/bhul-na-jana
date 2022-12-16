@@ -15,3 +15,44 @@
 .primary{
   cursor: pointer;
 }
+
+.title{
+  font-size: 60px;
+  color:white;
+  padding: 10px;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.549);
+}
+.er-msg,.star{
+  color: red;
+}
+.spacebetween{
+  display: flex;
+justify-content: space-between;
+margin-bottom: 1%;
+}
+.np{
+  position: absolute;
+  right: 10px;
+}
+.cp{
+  position: absolute;
+  right: 10px;
+}
+.jk{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+.signUp{
+  padding: 10px;
+}
+.button{
+  outline: none;
+  border: none;
+}
+.btndiv{
+  display: flex;
+  justify-content: space-around;
+}
+
