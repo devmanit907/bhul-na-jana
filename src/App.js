@@ -1,14 +1,27 @@
-import React from 'react';
-import { Button } from 'antd';
-import 'antd/dist/reset.css';
-import './App.css';
+import React from "react";
 
-import Layout from './Components/Layout';
+import "./App.css";
+import { useSelector } from "react-redux";
 
-const App = () => (
-  <>
-    <Layout />
-  </>
-);
+import Layout from "./Components/Layout";
+import Login from "./Components/LoginForm";
+
+function App() {
+  const loggedInUser = useSelector((state) => {
+    return state.auth.loggedInUser;
+  });
+
+  return (
+    <>
+      {loggedInUser ? (
+        <Layout />
+      ) : (
+        <>
+          <Login />
+        </>
+      )}
+    </>
+  );
+}
 
 export default App;
