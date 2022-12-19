@@ -1,30 +1,39 @@
 import React, { useState } from 'react';
 import {
-  UserOutlined,
+ PoweroffOutlined,CalendarOutlined,ContactsOutlined
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
-
+import { authActions } from "./features/authorize/authSlice";
 import AddEvent from './AddEvent';
 import Dashboard from './Dashboard';
+import Login from './LoginForm';
+import { useSelector } from "react-redux";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 
 
 const LayoutComponent = () => {
+
+  const logedInUser = useSelector((state) => {
+    return state.auth.loggedInUser;
+  });
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+
 
 
   const items = [
     {
         key: 'dashboard',
-        icon: <UserOutlined />,
+        icon: <CalendarOutlined />,
         label: 'Dashboard',
         onClick: () => {
             navigate('/')
@@ -32,10 +41,18 @@ const LayoutComponent = () => {
     },
     {
         key: 'add-event',
-        icon: <UserOutlined />,
+        icon: <ContactsOutlined/>,
         label: 'Add Event',
         onClick: () => {
             navigate('/add-event')
+        }
+    },{
+      key: 'log_out',
+        icon: <PoweroffOutlined />,
+        label: 'Log Out',
+        onClick: () => {
+          dispatch(authActions.logout(false))
+           
         }
     }
 ]
@@ -73,8 +90,7 @@ const LayoutComponent = () => {
               margin: '16px 0',
             }}
           >
-            {/* <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+            <Breadcrumb.Item>Hello {logedInUser.firstName} !</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{
@@ -85,6 +101,7 @@ const LayoutComponent = () => {
           > 
             
             <Routes>
+                <Route path='/login' element={<Login/>}/>
                 <Route path='/add-event' element={<AddEvent />} />
                 <Route path='/' element={<Dashboard />} />
             </Routes>

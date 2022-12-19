@@ -1,4 +1,4 @@
-users: [
+const users= [
     {
         'id': 1,
         'email': 'raj@gmail.com',
@@ -15,14 +15,14 @@ users: [
     }
 ]
 
-loggedInUser: {
-    'id': 1
-    'email': 'raj@gmail.com',
-    'pass': 'pass'
-}
+// loggedInUser: {
+//     'id': 1,
+//     'email': 'raj@gmail.com',
+//     'pass': 'pass'
+// }
 
 
-events: [
+const events= [
     {
         'user_id': 1,
         'name': 'Chintu',
