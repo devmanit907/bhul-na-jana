@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     'loggedInUser': null,
-    'loggedOutUser':false,
-    'signUpUser':[],
+    'signUpUser': JSON.parse(localStorage.getItem('users') || '[]'),
 }
 
 
@@ -15,10 +14,14 @@ const authSlice = createSlice({
             state.loggedInUser = action.payload
         },
         'logout': (state,action) => {
-            state.loggedOutUser = action.payload
+            // state.loggedOutUser = action.payload
+            state.loggedInUser = null
         },
         'signUp':(state,action)=>{
-            state.signUpUser = [...state.signUpUser, action.payload];
+            let uniqueId = new Date().getTime();
+            let updatedUsers = [...state.signUpUser, {...action.payload, id: uniqueId }]
+            localStorage.setItem('users', JSON.stringify(updatedUsers))
+            state.signUpUser = updatedUsers;
         }
     }
 })

@@ -1,35 +1,58 @@
 import React, { useState } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import {eventActions} from './features/authorize/eventSlice';
 import {
   Button,
   DatePicker,
   Form,
   Input,
   Select,
-  Upload
+  Upload,
+  notification
 } from 'antd';
 import moment from 'moment';
-import saveEvent from '../storage/saveEvent';
+
 const App = () => {
   const  [form] = Form.useForm();
+  const [api, contextHolder] = notification.useNotification();
+  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const openNotification = (message, description, duration=2) => {
+    api.open({
+      message: message,
+      description: description,
+      duration: duration,
+    });
+  };
 
   const onFinish = () => {
+    setSubmitBtnLoading(true)
     form.validateFields()
     .then((values) => {
-        console.log({values});
+        let eventDate = values.event_date.second(0).minute(0).hour(0)
         let event_data = {
+            'user_id': loggedInUser.id,
             'name': values.name,
             'nickname': values.nickname,
             'event_type': values.occasion,
             'spouse_name': values.spouse_name,
             'family_code_name': values.family_code_name,
-            'event_date': moment(values.event_date).add(0, 'hour').add(0, 'minute').add(0, 'seconds').utc().toISOString()
+            'event_date': eventDate.toISOString()
         }
-        saveEvent(event_data)
+        dispatch(eventActions.saveEvent(event_data));
+        openNotification('Event saved!', 'Your event is now saved')
+        form.resetFields();
     })
     .catch((errorInfo) => {
         console.error(errorInfo)
-    });
+    })
+    .finally(() => {
+        setSubmitBtnLoading(false)
+    })
   }
 
   const normFile = (e) => {
@@ -41,6 +64,9 @@ const App = () => {
   };
 
   return (
+    <>
+    {contextHolder}
+    
     <Form
       labelCol={{
         span: 4,
@@ -88,11 +114,12 @@ const App = () => {
         <DatePicker />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" loading={submitBtnLoading}>
           Submit
       </Button>   
       
     </Form>
+    </>
   );
 };
 export default App;

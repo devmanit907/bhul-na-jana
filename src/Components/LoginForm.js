@@ -43,7 +43,6 @@ const Login = () => {
 
     if (result[0]) {
       dispatching(authActions.login({ ...result[0] }));
-      dispatching(authActions.logout(true));
       navigate("/");
     } else {
       let text = "Incorrect User Credentials! Need to SignUp??";

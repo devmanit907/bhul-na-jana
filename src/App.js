@@ -7,13 +7,13 @@ import Layout from "./Components/Layout";
 import Login from "./Components/LoginForm";
 
 function App() {
-  const loggedOutUser = useSelector((state) => {
-    return state.auth.loggedOutUser;
+  const loggedInUser = useSelector((state) => {
+    return state.auth.loggedInUser;
   });
 
   return (
     <>
-      {loggedOutUser ? (
+      {loggedInUser ? (
         <Layout />
       ) : (
         <>
