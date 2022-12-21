@@ -103,6 +103,7 @@ const LayoutComponent = () => {
             <Routes>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/add-event' element={<AddEvent />} />
+                <Route path='/edit-event/:id' element={<AddEvent />} />
                 <Route path='/' element={<Dashboard />} />
             </Routes>
 

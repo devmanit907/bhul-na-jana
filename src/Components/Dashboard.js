@@ -1,12 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Button } from 'antd';
+import {useNavigate} from 'react-router-dom';
+
 const Dashboard = () => {
 
     const loggedInUser = useSelector(state => state.auth.loggedInUser)
     const events = useSelector((state) => state.event.events)
-
+    const navigate = useNavigate();
+    
     const rowStyle = {
 
     }
@@ -16,17 +19,24 @@ const Dashboard = () => {
         marginBottom: "10px"
     }
 
+    const handleEditClick = (event_id) => {
+        console.log(event_id);
+        navigate('/edit-event/'+event_id)
+    }
+
+
     return (
         <>
             <div className="site-card-wrapper">
                 <Row gutter={16}>
                 {
-                    events.map((event, i) => {
+                    events && events.map((event, i) => {
                         console.log(i, event)
                         if (event.user_id == loggedInUser.id){
                             return (
                                 <Col span={8} key={i}>
-                                    <Card title={event.name} bordered={false} style={cardHeaderStyle}>
+                                    <Card title={event.name} bordered={false} style={cardHeaderStyle} 
+                                    extra={<Button onClick={() => handleEditClick(event.id)}>Edit</Button>}>
                                     <p>{event.name}'s {event.event_type}</p>
                                     <p>{moment(event.event_date).format('DD-MMM-YYYY')}</p>
                                     </Card>
