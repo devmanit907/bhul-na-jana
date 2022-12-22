@@ -22,11 +22,13 @@ const LayoutComponent = () => {
     return state.auth.loggedInUser;
   });
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState(['dashboard'])
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate()
   const dispatch = useDispatch();
+
 
 
 
@@ -37,6 +39,7 @@ const LayoutComponent = () => {
         label: 'Dashboard',
         onClick: () => {
             navigate('/')
+            setSelectedKeys(['dashboard'])
         }
     },
     {
@@ -45,14 +48,15 @@ const LayoutComponent = () => {
         label: 'Add Event',
         onClick: () => {
             navigate('/add-event')
+            setSelectedKeys(['add-event'])
         }
     },{
-      key: 'log_out',
+      key: 'log-out',
         icon: <PoweroffOutlined />,
         label: 'Log Out',
         onClick: () => {
           dispatch(authActions.logout(false))
-           
+          setSelectedKeys(['log-out'])
         }
     }
 ]
@@ -71,7 +75,7 @@ const LayoutComponent = () => {
             background: 'rgba(255, 255, 255, 0.2)',
           }}
         />
-        <Menu theme="dark" defaultSelectedKeys={['dashboard']} mode="inline" items={items} />
+        <Menu theme="dark" defaultSelectedKeys={selectedKeys} mode="inline" items={items} selectedKeys={selectedKeys}/>
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -104,7 +108,7 @@ const LayoutComponent = () => {
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/add-event' element={<AddEvent />} />
                 <Route path='/edit-event/:id' element={<AddEvent />} />
-                <Route path='/' element={<Dashboard />} />
+                <Route path='/' element={<Dashboard setSelectedKeys = {setSelectedKeys} />} />
             </Routes>
 
 

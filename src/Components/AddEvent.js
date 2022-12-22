@@ -27,17 +27,23 @@ const App = () => {
   const formRef = React.createRef();
 
   useEffect(() => {
-    let eventToBeEdited = events.filter(event => parseInt(event.id) === parseInt(id))[0]
-    console.log({eventToBeEdited})
-    formRef.current.setFieldsValue({
-        name: eventToBeEdited.name,
-        nickname: eventToBeEdited.nickname,
-        occasion: eventToBeEdited.event_type,
-        spouse_name: eventToBeEdited.spouse_name,
-        family_code_name: eventToBeEdited.family_code_name,
-        event_date: moment(eventToBeEdited.event_date)
-    })
-  }, [])
+    if (id){
+        let eventToBeEdited = events.filter(event => parseInt(event.id) === parseInt(id))[0]
+        console.log({eventToBeEdited})
+        formRef.current.setFieldsValue({
+            name: eventToBeEdited.name,
+            nickname: eventToBeEdited.nickname,
+            occasion: eventToBeEdited.event_type,
+            spouse_name: eventToBeEdited.spouse_name,
+            family_code_name: eventToBeEdited.family_code_name,
+            event_date: moment(eventToBeEdited.event_date)
+        })
+    } else {
+        formRef.current.resetFields()
+    }
+    
+  }, [id])
+
     
   const dispatch = useDispatch();
 

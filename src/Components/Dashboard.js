@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Card, Col, Row, Button } from 'antd';
 import {useNavigate} from 'react-router-dom';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
 
     const loggedInUser = useSelector(state => state.auth.loggedInUser)
     const events = useSelector((state) => state.event.events)
@@ -22,6 +22,7 @@ const Dashboard = () => {
     const handleEditClick = (event_id) => {
         console.log(event_id);
         navigate('/edit-event/'+event_id)
+        props.setSelectedKeys(["add-event"])
     }
 
 
